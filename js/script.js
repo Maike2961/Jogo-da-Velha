@@ -25,6 +25,13 @@ for(let i= 0; i < boxes.length; i++){
 
         if(player1 == player2){
             player1++
+
+            if(secondPlayer == 'ai-players'){
+                // funcao exercutar jogada
+                player2++;
+                computerPlay()
+            }
+
         }else{
             player2++
         }
@@ -37,6 +44,26 @@ for(let i= 0; i < boxes.length; i++){
 
     });
 }
+// 2 players ou pc
+
+for(let x = 0; x < buttons.length; x++){
+    buttons[x].addEventListener("click", function(){
+        secondPlayer = this.getAttribute("id");
+
+        for(let y = 0; y < buttons.length; y++){
+            buttons[y].style.display = 'none';
+        }
+
+        setTimeout(function(){
+            let container = document.querySelector("#container")
+            container.classList.remove("hide")
+        },500)
+    })
+}
+
+
+
+
 
 //quem vai jogar
 function checkPlayer(player1 , player2){
@@ -224,4 +251,28 @@ function declaWin(winner){
         boxesToremove[i].parentNode.removeChild(boxesToremove[i]);
     }
 
+}
+// executar a logica da jogada do cpu
+function computerPlay(){
+
+    let cloneO = o.cloneNode(true);
+    counter =0;
+    filled = 0;
+
+    for(i = 0; i < boxes.length; i++){
+        let randomNumber = Math.floor(Math.random() * 5);
+
+        if(boxes[i].childNodes[0] == undefined){
+            if(randomNumber <= 1){
+                boxes[i].appendChild(cloneO);
+                counter++
+                break;
+            }
+        }else{
+            filled++
+        }
+    }
+    if(counter == 0 && filled < 9){
+        computerPlay()
+    }
 }
